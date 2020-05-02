@@ -15,9 +15,19 @@ window.title("Calculator");
 
 #1. Function to update the displayer whenever a button is clicked. Basically a button updater
 def button_click(item):
+    operations = ["/", "+", "-", "*"];
     global expression
-    expression = expression + str(item)
-    input_text.set(expression)
+    global result
+    if expression == result and (item in operations):
+        expression = expression + str(item)
+        input_text.set(expression)
+    elif expression == result and not (item in operations):
+        expression = "";
+        expression += str(item);
+        input_text.set(expression);
+    elif expression != result:
+        expression = expression + str(item);
+        input_text.set(expression);
     
 #2. Function CLear to clear the calculator
 def button_clear():
@@ -28,13 +38,15 @@ def button_clear():
 #3. Button equal '=' for showing the result of the expression typed
 def button_equal():
     global expression;
+    global result;
     result = str(eval(expression));
     input_text.set(result);
-    expression = "";
+    expression = result;
     
 #Defining the variables
 expression = "";
 input_text = StringVar();
+result = "";
     
 #Creating the frame for the calculator
 input_frame = Frame(window, width = 312, height = 50, bd = 0, highlightbackground = "black", highlightcolor = "black", highlightthickness = 1)
@@ -75,7 +87,7 @@ three = Button(buttons_frame, text = "3", width = 10, height = 3, command = lamb
 add = Button(buttons_frame, text = "+", width = 10, height = 3, command = lambda: button_click("+")).grid(row = 3, column = 3)
 
 #Fifth row
-zero = Button(buttons_frame, text = "0", width = 20, height = 3, command = lambda: button_click("0")).grid(row = 4, column = 0, columnspan = 2)
+zero = Button(buttons_frame, text = "0", width = 21, height = 3, command = lambda: button_click("0")).grid(row = 4, column = 0, columnspan = 2)
 comma = Button(buttons_frame, text = ",", width = 10, height = 3, command = lambda: button_click(",")).grid(row = 4, column = 2)
 equal = Button(buttons_frame, text = "=", width = 10, height = 3, command = lambda: button_equal()).grid(row = 4, column = 3)
 
